@@ -139,6 +139,7 @@ main {
   background-color: var(--bgnd-color);
   padding: 20px;
   font-size: 16px;
+  transition: opacity 0.1s linear;
 }
 
 .overlay .detail-content .detail-image-wrapper {

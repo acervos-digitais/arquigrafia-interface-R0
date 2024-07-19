@@ -163,6 +163,7 @@ document.addEventListener("DOMContentLoaded", async (_) => {
   function loadOverlay(ev) {
     const selInputEl = document.getElementById("selection-container");
     const detailOverlayEl = document.getElementById("detail-overlay");
+    const detailContentEl = document.getElementById("detail-content");
     const imgEl = document.getElementById("detail-image");
     const canvasEl = document.getElementById("detail-canvas");
     const captionEl = document.getElementById("detail-caption");
@@ -175,8 +176,12 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     const imgSrc = IMAGES_URL.replace("IDID", imageId);
     const linkHref = INFO_URL.replace("IDID", imageId);
 
+    detailContentEl.style.opacity = 0;
+
     linkEl.innerHTML = INFOSTRING[lang()];
     imgEl.setAttribute("src", imgSrc);
+    imgEl.removeAttribute("width");
+    imgEl.removeAttribute("height");
     linkEl.setAttribute("href", linkHref);
 
     captionEl.innerHTML = objectData["images"][imageId]["caption"][lang()];
@@ -184,19 +189,34 @@ document.addEventListener("DOMContentLoaded", async (_) => {
 
     function drawBox() {
       const selObj = selInputEl.getAttribute("data-selected-object");
-      const selObjBox = objectData["images"][imageId]["boxes"][selObj];
+      const objBox = objectData["images"][imageId]["boxes"][selObj];
 
-      const cw = imgEl.offsetWidth;
-      const ch = imgEl.offsetHeight;
-      const bw = selObjBox[2] - selObjBox[0];
-      const bh = selObjBox[3] - selObjBox[1];
+      const overlayW = detailOverlayEl.offsetWidth;
+      const overlayH = detailOverlayEl.offsetHeight;
+      const imgW = imgEl.width;
+      const imgH = imgEl.height;
 
-      canvasEl.setAttribute("width", cw);
-      canvasEl.setAttribute("height", ch);
+      const imgMargin = 0.75;
+
+      if (imgW > imgMargin * overlayW || imgH > imgMargin * overlayH) {
+        const scaleFactor = Math.min(imgMargin * overlayW / imgW, imgMargin * overlayH / imgH);
+        imgEl.width = scaleFactor * imgW;
+        imgEl.height = scaleFactor * imgH;
+      }
+
+      canvasEl.width = imgEl.width;
+      canvasEl.height = imgEl.height;
+
+      const boxX = objBox[0] * imgEl.width;
+      const boxY = objBox[1] * imgEl.height;
+      const boxW = (objBox[2] - objBox[0]) * imgEl.width;
+      const boxH = (objBox[3] - objBox[1]) * imgEl.height;
 
       canvasCtx.strokeStyle = "#0f0";
       canvasCtx.lineWidth = 4;
-      canvasCtx.strokeRect(selObjBox[0] * cw, selObjBox[1] * ch, bw * cw, bh * ch);
+      canvasCtx.strokeRect(boxX, boxY, boxW, boxH);
+
+      detailContentEl.style.opacity = 1;
     }
 
     detailOverlayEl.classList.add("visible");

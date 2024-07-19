@@ -2,7 +2,17 @@ const OBJS_URL = "https://raw.githubusercontent.com/acervos-digitais/oito-um-uti
 const SEEK_URL = "https://raw.githubusercontent.com/acervos-digitais/oito-um-utils/main/metadata/0801-1152/seek.json";
 
 const VIDEOS_URL = "//digitais.acervos.me/videos/0801-500";
-const IMAGES_URL = "//digitais.acervos.me/images/0801-500";
+const IMAGES_URL = "//media.acervos.me/images/0801-500";
+
+function lang() {
+  let mlang = localStorage.getItem("0801lang");
+  if (!mlang) {
+    localStorage.setItem("0801lang", "en");
+    return "en";
+  } else {
+    return mlang;
+  }
+}
 
 function getGridDims(numVideos) {
   const videoArea = (window.innerWidth * window.innerHeight) / numVideos;
@@ -19,35 +29,130 @@ async function fetchData(mUrl) {
   return await response.json();
 }
 
-document.addEventListener("DOMContentLoaded", async (_) => {
+const prevDef = (ev) => ev.preventDefault();
+const stopProp = (ev) => ev.stopPropagation();
+
+let loadOverlay;
+
+function populateNavMenu() {
   const mUrl = location.href;
-  Array.from(document.getElementsByTagName("a")).forEach(a => {
+  const titleEl = document.getElementById("navigation-title");
+  const navMenuEl = document.getElementById("navigation-menu");
+  const navLinkEls = navMenuEl.querySelectorAll("[data-slug]");
+
+  titleEl.innerHTML = DAYSTRING[lang()];
+
+  navLinkEls.forEach((a) => {
     const aRef = a.getAttribute("href");
+    const aSlug = a.getAttribute("data-slug");
+
     if (mUrl.slice(-5) == aRef.slice(-5)) {
       a.removeAttribute("href");
       a.classList.add("disabled");
     }
+    a.innerHTML = MENUTEXT[lang()][aSlug];
   });
+}
+
+function populateLangMenu() {
+  const langMenuEl = document.getElementById("lang-menu");
+
+  ["en", "pt"].forEach(l => {
+    const langEl = document.createElement("div");
+    langEl.classList.add("lang-option");
+    langEl.innerHTML = l;
+    if (l == lang()) {
+      langEl.classList.add("selected");
+    } else {
+      langEl.addEventListener("click", () => {
+        localStorage.setItem("0801lang", l);
+        location.reload();
+      });
+    }
+    langMenuEl.appendChild(langEl);
+  });
+}
+
+function setupVideoOverlay() {
+  const vidOverlayEl = document.getElementById("video-overlay");
+  const overlayVideoEl = document.getElementById("overlay-video");
+  const overlayVideoSrcEl = document.getElementById("overlay-video-source");
+
+  vidOverlayEl.addEventListener("click", () => {
+    vidOverlayEl.classList.remove("visible");
+    document.body.removeEventListener("wheel", prevDef);
+
+    overlayVideoEl.pause();
+    overlayVideoSrcEl.setAttribute("src", "");
+    overlayVideoEl.load();
+  });
+
+  overlayVideoEl.addEventListener("click", stopProp);
+
+  loadOverlay = (ev) => {
+    const vidSrc = ev.currentTarget.getAttribute("data-video-src");
+    const vidPos = ev.currentTarget.getAttribute("data-video-seek");
+
+    overlayVideoSrcEl.setAttribute("src", vidSrc);
+    overlayVideoEl.currentTime = vidPos;
+
+    if (vidPos >= 0) {
+      overlayVideoEl.load();
+      vidOverlayEl.classList.add("visible");
+      document.body.addEventListener("wheel", prevDef, { passive: false });
+    }
+  };
+}
+
+function setupAboutOverlay() {
+  const aboutOverlayEl = document.getElementById("about-overlay");
+  const overlayAboutEl = document.getElementById("overlay-about");
+  const aboutLinkEl = document.getElementById("about-link");
+
+  aboutOverlayEl.addEventListener("click", () => {
+    aboutOverlayEl.classList.remove("visible");
+    document.body.removeEventListener("wheel", prevDef);
+  });
+
+  overlayAboutEl.addEventListener("click", stopProp);
+
+  aboutLinkEl.addEventListener("click", () => {
+    aboutOverlayEl.classList.add("visible");
+    overlayAboutEl.innerHTML = ABOUTTEXT[lang()];
+    document.body.addEventListener("wheel", prevDef, { passive: false });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", async (_) => {
+  populateNavMenu();
+  setupVideoOverlay();
+  setupAboutOverlay();
+  populateLangMenu();
 });
 function createImageElement(frameData, obs) {
   const imgWrapperEl = document.createElement("div");
   const imgEl = document.createElement("img");
+  const imgTextEl = document.createElement("p");
 
   imgWrapperEl.classList.add("image-wrapper");
   imgEl.classList.add("image-image");
+  imgTextEl.classList.add("no-image-text");
 
-  imgWrapperEl.setAttribute("data-video-src", frameData.file);
+  imgWrapperEl.setAttribute("data-video-src", `${VIDEOS_URL}/${frameData.file}`);
   imgWrapperEl.setAttribute("data-video-seek", frameData.time);
 
   imgWrapperEl.innerHTML = "Loading...";
   imgWrapperEl.style.width = `${100 / NUM_COLS}%`;
 
   const cname = frameData.file.replace(/\/.+$/, "");
-  const fname = `${Math.floor(frameData.timestamp)}.jpg`
+  const fname = `${Math.floor(frameData.timestamp)}.jpg`;
   const imgSrc = `${IMAGES_URL}/${cname}/${fname}`;
+
+  imgTextEl.innerHTML = NOIMAGE[lang()];
 
   imgWrapperEl.innerHTML = "";
   imgWrapperEl.appendChild(imgEl);
+  imgWrapperEl.appendChild(imgTextEl);
   imgEl.src = imgSrc;
 
   if (obs) {
@@ -66,10 +171,6 @@ document.addEventListener("DOMContentLoaded", async (_) => {
 
   const selInputEl = document.getElementById("selection-container");
   const imagesEl = document.getElementById("images-container");
-
-  const overlayEl = document.getElementById("overlay");
-  const overlayVideoEl = document.getElementById("overlay-video");
-  const overlayVideoSrcEl = document.getElementById("overlay-video-source");
 
   frameOnscreen = (entries, _) => {
     entries.forEach((entry) => {
@@ -91,19 +192,9 @@ document.addEventListener("DOMContentLoaded", async (_) => {
       const mImgEl = createImageElement(frames[i], i == lastIdx - 2);
       imagesEl.appendChild(mImgEl);
 
-      mImgEl.style.maxHeight = `${mImgEl.offsetWidth * 9 / 16}px`;
+      mImgEl.style.maxHeight = `${(mImgEl.offsetWidth * 9) / 16}px`;
 
-      mImgEl.addEventListener("click", (ev) => {
-        const vidFile = ev.currentTarget.getAttribute("data-video-src");
-        const vidPos = ev.currentTarget.getAttribute("data-video-seek");
-        const vidSrc = `${VIDEOS_URL}/${vidFile}`;
-
-        overlayVideoSrcEl.setAttribute("src", vidSrc);
-        overlayVideoEl.currentTime = vidPos;
-        overlayVideoEl.load();
-
-        overlayEl.classList.add("visible");
-      });
+      mImgEl.addEventListener("click", loadOverlay);
     }
     return lastIdx;
   }
@@ -123,7 +214,7 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     const optButEl = document.createElement("button");
     optButEl.classList.add("object-option-button");
     optButEl.setAttribute("data-option", o);
-    optButEl.innerHTML = o;
+    optButEl.innerHTML = OBJ2LABEL[lang()][o];
 
     optButEl.addEventListener("click", (ev) => {
       selInputEl.childNodes.forEach((e) => e.classList.remove("selected"));
@@ -134,17 +225,5 @@ document.addEventListener("DOMContentLoaded", async (_) => {
       updateVideosByObject(selObj);
     });
     selInputEl.appendChild(optButEl);
-  });
-
-  overlayEl.addEventListener("click", () => {
-    overlayEl.classList.remove("visible");
-
-    overlayVideoEl.pause();
-    overlayVideoSrcEl.setAttribute("src", "");
-    overlayVideoEl.load();
-  });
-
-  overlayVideoEl.addEventListener("click", (ev) => {
-    ev.stopPropagation();
   });
 });

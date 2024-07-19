@@ -164,8 +164,11 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     const selInputEl = document.getElementById("selection-container");
     const detailOverlayEl = document.getElementById("detail-overlay");
     const imgEl = document.getElementById("detail-image");
+    const canvasEl = document.getElementById("detail-canvas");
     const captionEl = document.getElementById("detail-caption");
     const linkEl = document.getElementById("detail-link");
+
+    const canvasCtx = canvasEl.getContext("2d");
 
     const imageId = ev.currentTarget.getAttribute("data-image-id");
 
@@ -177,14 +180,30 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     linkEl.setAttribute("href", linkHref);
 
     captionEl.innerHTML = objectData["images"][imageId]["caption"][lang()];
+    canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
-    // TODO: draw boxes
-    const selObj = selInputEl.getAttribute("data-selected-object");
-    const selObjBox = objectData["images"][imageId]["boxes"][selObj];
-    console.log(selObj, selObjBox);
+    function drawBox() {
+      const selObj = selInputEl.getAttribute("data-selected-object");
+      const selObjBox = objectData["images"][imageId]["boxes"][selObj];
+
+      const cw = imgEl.offsetWidth;
+      const ch = imgEl.offsetHeight;
+      const bw = selObjBox[2] - selObjBox[0];
+      const bh = selObjBox[3] - selObjBox[1];
+
+      canvasEl.setAttribute("width", cw);
+      canvasEl.setAttribute("height", ch);
+
+      canvasCtx.strokeStyle = "#0f0";
+      canvasCtx.lineWidth = 4;
+      canvasCtx.strokeRect(selObjBox[0] * cw, selObjBox[1] * ch, bw * cw, bh * ch);
+    }
 
     detailOverlayEl.classList.add("visible");
     document.body.addEventListener("wheel", prevDef, { passive: false });
+
+    // TODO: fix this
+    setTimeout(drawBox, 200);
   };
 
   function loadImages(images, startIdx, numImages = 10) {

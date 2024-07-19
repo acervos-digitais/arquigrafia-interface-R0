@@ -1,12 +1,12 @@
-const OBJS_URL = "https://raw.githubusercontent.com/acervos-digitais/oito-um-utils/main/metadata/objects-1152/objects.json";
+const OBJS_URL = "./js/objects.json";
 
-const VIDEOS_URL = "//digitais.acervos.me/videos/0801-500";
-const IMAGES_URL = "//media.acervos.me/images/0801-500";
+const INFO_URL = "https://www.arquigrafia.org.br/photos/IDID";
+const IMAGES_URL = "https://www.arquigrafia.org.br/arquigrafia-images/IDID_view.jpg";
 
 function lang() {
-  let mlang = localStorage.getItem("0801lang");
+  let mlang = localStorage.getItem("arquilang");
   if (!mlang) {
-    localStorage.setItem("0801lang", "en");
+    localStorage.setItem("arquilang", "en");
     return "en";
   } else {
     return mlang;
@@ -30,8 +30,6 @@ async function fetchData(mUrl) {
 
 const prevDef = (ev) => ev.preventDefault();
 const stopProp = (ev) => ev.stopPropagation();
-
-let loadOverlay;
 
 function populateNavMenu() {
   const mUrl = location.href;
@@ -64,7 +62,7 @@ function populateLangMenu() {
       langEl.classList.add("selected");
     } else {
       langEl.addEventListener("click", () => {
-        localStorage.setItem("0801lang", l);
+        localStorage.setItem("arquilang", l);
         location.reload();
       });
     }
@@ -72,35 +70,16 @@ function populateLangMenu() {
   });
 }
 
-function setupVideoOverlay() {
-  const vidOverlayEl = document.getElementById("video-overlay");
-  const overlayVideoEl = document.getElementById("overlay-video");
-  const overlayVideoSrcEl = document.getElementById("overlay-video-source");
+function setupDetailOverlay() {
+  const detailOverlayEl = document.getElementById("detail-overlay");
+  const detailContentEl = document.getElementById("detail-content");
 
-  vidOverlayEl.addEventListener("click", () => {
-    vidOverlayEl.classList.remove("visible");
+  detailOverlayEl.addEventListener("click", () => {
+    detailOverlayEl.classList.remove("visible");
     document.body.removeEventListener("wheel", prevDef);
-
-    overlayVideoEl.pause();
-    overlayVideoSrcEl.setAttribute("src", "");
-    overlayVideoEl.load();
   });
 
-  overlayVideoEl.addEventListener("click", stopProp);
-
-  loadOverlay = (ev) => {
-    const vidSrc = ev.currentTarget.getAttribute("data-video-src");
-    const vidPos = ev.currentTarget.getAttribute("data-video-seek");
-
-    overlayVideoSrcEl.setAttribute("src", vidSrc);
-    overlayVideoEl.currentTime = vidPos;
-
-    if (vidPos >= 0) {
-      overlayVideoEl.load();
-      vidOverlayEl.classList.add("visible");
-      document.body.addEventListener("wheel", prevDef, { passive: false });
-    }
-  };
+  detailContentEl.addEventListener("click", stopProp);
 }
 
 function setupAboutOverlay() {
@@ -124,11 +103,12 @@ function setupAboutOverlay() {
 
 document.addEventListener("DOMContentLoaded", async (_) => {
   populateNavMenu();
-  setupVideoOverlay();
+  setupDetailOverlay();
   setupAboutOverlay();
   populateLangMenu();
 });
-function createImageElement(frameData, obs) {
+
+function createImageElement(imageId, obs) {
   const imgWrapperEl = document.createElement("div");
   const imgEl = document.createElement("img");
   const imgTextEl = document.createElement("p");
@@ -137,17 +117,12 @@ function createImageElement(frameData, obs) {
   imgEl.classList.add("image-image");
   imgTextEl.classList.add("no-image-text");
 
-  imgWrapperEl.setAttribute("data-video-src", `${VIDEOS_URL}/${frameData.file}`);
-  imgWrapperEl.setAttribute("data-video-seek", frameData.time);
+  imgWrapperEl.setAttribute("data-image-id", imageId);
 
   imgWrapperEl.innerHTML = "Loading...";
   imgWrapperEl.style.width = `${100 / NUM_COLS}%`;
 
-  const cname = frameData.file.replace(/\/.+$/, "");
-  const fname = `${Math.floor(frameData.timestamp)}.jpg`;
-  const imgSrc = `${IMAGES_URL}/${cname}/${fname}`;
-
-  imgTextEl.innerHTML = NOIMAGE[lang()];
+  const imgSrc = IMAGES_URL.replace("IDID", imageId);
 
   imgWrapperEl.innerHTML = "";
   imgWrapperEl.appendChild(imgEl);
@@ -162,33 +137,60 @@ function createImageElement(frameData, obs) {
 }
 
 let mObserver = null;
-let cFrames = [];
-let cFrameIdx = 0;
+let cImages = [];
+let cImageIdx = 0;
 
 document.addEventListener("DOMContentLoaded", async (_) => {
-  const frameData = await fetchData(OBJS_URL);
+  const objectData = await fetchData(OBJS_URL);
 
   const selInputEl = document.getElementById("selection-container");
   const imagesEl = document.getElementById("images-container");
 
-  frameOnscreen = (entries, _) => {
+  const imageOnscreen = (entries, _) => {
     entries.forEach((entry) => {
       const eEl = entry.target;
       if (entry.isIntersecting) {
         mObserver.unobserve(eEl);
-        cFrameIdx = loadFrames(cFrames, cFrameIdx);
+        cImageIdx = loadImages(cImages, cImageIdx);
       }
     });
   };
 
-  mObserver = new IntersectionObserver(frameOnscreen, {
+  mObserver = new IntersectionObserver(imageOnscreen, {
     threshold: 0.01,
   });
 
-  function loadFrames(frames, startIdx, numFrames = 10) {
-    const lastIdx = Math.min(startIdx + numFrames, frames.length);
+  function loadOverlay(ev) {
+    const selInputEl = document.getElementById("selection-container");
+    const detailOverlayEl = document.getElementById("detail-overlay");
+    const imgEl = document.getElementById("detail-image");
+    const captionEl = document.getElementById("detail-caption");
+    const linkEl = document.getElementById("detail-link");
+
+    const imageId = ev.currentTarget.getAttribute("data-image-id");
+
+    const imgSrc = IMAGES_URL.replace("IDID", imageId);
+    const linkHref = INFO_URL.replace("IDID", imageId);
+
+    linkEl.innerHTML = INFOSTRING[lang()];
+    imgEl.setAttribute("src", imgSrc);
+    linkEl.setAttribute("href", linkHref);
+
+    captionEl.innerHTML = objectData["images"][imageId]["caption"][lang()];
+
+    // TODO: draw boxes
+    const selObj = selInputEl.getAttribute("data-selected-object");
+    const selObjBox = objectData["images"][imageId]["boxes"][selObj];
+    console.log(selObj, selObjBox);
+
+    detailOverlayEl.classList.add("visible");
+    document.body.addEventListener("wheel", prevDef, { passive: false });
+  };
+
+  function loadImages(images, startIdx, numImages = 10) {
+    const lastIdx = Math.min(startIdx + numImages, images.length);
     for (let i = startIdx; i < lastIdx; i++) {
-      const mImgEl = createImageElement(frames[i], i == lastIdx - 2);
+      const mImgEl = createImageElement(images[i], i == lastIdx - 2);
       imagesEl.appendChild(mImgEl);
 
       mImgEl.style.maxHeight = `${(mImgEl.offsetWidth * 9) / 16}px`;
@@ -198,18 +200,13 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     return lastIdx;
   }
 
-  function updateVideosByObject(cObject) {
+  function updateImagesByObject(cObject) {
     imagesEl.innerHTML = "";
-    cFrames = frameData.objects[cObject].map((fi) => {
-      const mF = { ...frameData.frames[fi] };
-      mF.file = frameData.files[mF.file];
-      return mF;
-    });
-
-    cFrameIdx = loadFrames(cFrames, 0);
+    cImages = objectData["objects"][cObject].slice();
+    cImageIdx = loadImages(cImages, 0);
   }
 
-  Object.keys(frameData.objects).forEach((o) => {
+  Object.keys(objectData["objects"]).forEach((o) => {
     const optButEl = document.createElement("button");
     optButEl.classList.add("object-option-button");
     optButEl.setAttribute("data-option", o);
@@ -221,7 +218,8 @@ document.addEventListener("DOMContentLoaded", async (_) => {
       const el = ev.target;
       el.classList.add("selected");
       const selObj = el.getAttribute("data-option");
-      updateVideosByObject(selObj);
+      selInputEl.setAttribute("data-selected-object", selObj);
+      updateImagesByObject(selObj);
     });
     selInputEl.appendChild(optButEl);
   });

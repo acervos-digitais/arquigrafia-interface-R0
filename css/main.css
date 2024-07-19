@@ -1,0 +1,150 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --text-color: #ddd;
+  --text-color-h: #bbb;
+  --text-color-a: #ff66b3;
+  --text-color-a-h: #ff42a1;
+  --bgnd-color: #222;
+  --bgnd-color-h: #1a1a1a;
+  --text-size: 17px;
+  --text-height: 1.8;
+}
+
+@media screen and (max-width: 800px) {
+  :root {
+    --text-size: 14px;
+    --text-height: 1.6;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bgnd-color);
+  font-family: Raleway;
+  font-size: var(--text-size);
+  line-height: var(--text-height);
+  color: var(--text-color);
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--text-color-a);
+}
+
+a:visited {
+  color: var(--text-color-a);
+}
+
+a:hover {
+  color: var(--text-color-a-h);
+}
+
+a.disabled {
+  color: var(--text-color);
+  cursor: initial;
+}
+
+main {
+  width: 100vw;
+  min-height: 100vh;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.navigation-title {
+  font-size: 20px;
+  margin: 0 auto;
+}
+
+.navigation-menu {
+  font-size: 16px;
+  margin: 0 auto 8px;
+}
+
+.navigation-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.images-container {
+  width: 100%;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.images-container .image-wrapper {
+  border: 1px solid var(--bgnd-color-h);
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.1s linear;
+}
+.images-container .image-wrapper:hover {
+  opacity: 0.8;
+}
+
+.images-container .image-wrapper .image-image {
+  display: block;
+  width: 100%;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay.visible {
+  display: flex;
+}
+
+.overlay  .overlay-video {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+.navigation-container {
+  gap: 0 12px;
+}
+
+.navigation-container .selection-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+}
+
+.navigation-container .selection-container .object-option-button {
+  display: block;
+  cursor: pointer;
+  background-color: var(--text-color);
+  color: var(--bgnd-color);
+  border: 0;
+  padding: 4px 8px;
+}
+
+.navigation-container .selection-container .object-option-button.selected {
+  background-color: var(--text-color-a-h);
+  color: var(--text-color);
+}

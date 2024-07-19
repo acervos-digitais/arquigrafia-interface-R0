@@ -3,12 +3,12 @@
 }
 
 :root {
-  --text-color: #ddd;
-  --text-color-h: #bbb;
-  --text-color-a: #ff66b3;
-  --text-color-a-h: #ff42a1;
-  --bgnd-color: #222;
-  --bgnd-color-h: #1a1a1a;
+  --text-color: #000;
+  --text-color-h: #444;
+  --text-color-a: #000;
+  --text-color-a-h: #555;
+  --bgnd-color: #fff;
+  --bgnd-color-h: #eee;
   --text-size: 17px;
   --text-height: 1.8;
 }
@@ -136,15 +136,9 @@ main {
 .overlay .detail-content {
   display: flex;
   flex-direction: column;
-  max-height: 90%;
-  max-width: 90%;
   background-color: var(--bgnd-color);
   padding: 20px;
   font-size: 16px;
-}
-
-.overlay .detail-content .detail-image {
-  max-height: 80%;
 }
 
 .overlay .overlay-text {
@@ -195,14 +189,18 @@ main {
 .navigation-container .selection-container .object-option-button {
   display: block;
   cursor: pointer;
-  background-color: var(--text-color);
-  color: var(--bgnd-color);
-  border: 0;
+  background-color: var(--bgnd-color);
+  color: var(--text-color);
+  border: 1px var(--text-color) solid;
   padding: 4px 8px;
   text-transform: capitalize;
 }
 
+.navigation-container .selection-container .object-option-button:hover {
+  background-color: var(--bgnd-color-h);
+}
+
 .navigation-container .selection-container .object-option-button.selected {
   background-color: var(--text-color-a-h);
-  color: var(--text-color);
+  color: var(--bgnd-color);
 }

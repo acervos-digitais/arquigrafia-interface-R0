@@ -22,16 +22,22 @@
   <main>
     <div id="lang-menu" class="lang-menu"></div>
     <div id="navigation-title" class="navigation-title"></div>
+    <div id="navigation-menu" class="navigation-menu">
+      <a href="#" id="about-link" data-slug="about"></a> ||
+      <a href="https://www.acervosdigitais.fau.usp.br/" target="_blank">ACERVOS DIGITAIS</a>
+    </div>
     <div id="navigation-container" class="navigation-container">
       <div id="selection-container" class="selection-container"></div>
     </div>
     <div id="images-container" class="images-container"></div>
   </main>
 
-  <div id="video-overlay" class="overlay">
-    <video id="overlay-video" class="overlay-video" playsinline muted autoplay controls>
-      <source id="overlay-video-source" class="overlay-video-source" src="" type="video/mp4">
-    </video>
+  <div id="detail-overlay" class="overlay">
+    <div id="detail-content" class="detail-content">
+      <img id="detail-image" class="detail-image">
+      <p id="detail-caption" class="detail-caption"></p>
+      <a id="detail-link" class="detail-link" target="_blank"></a>
+    </div>
   </div>
 
   <div id="about-overlay" class="overlay">

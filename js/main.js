@@ -3,6 +3,17 @@ const OBJS_URL = "https://raw.githubusercontent.com/acervos-digitais/arquigrafia
 const INFO_URL = "https://www.arquigrafia.org.br/photos/IDID";
 const IMAGES_URL = "https://www.arquigrafia.org.br/arquigrafia-images/IDID_view.jpg";
 
+const CATEGORY = (window.location.hash == "#/art") ? "art" : "architecture";
+
+const CATEGORIES = {
+  architecture: [
+    "awning", "balcony", "brick", "chimney",
+    "exposed concrete", "door", "hand rail",
+    "pedestrian walking ramp", "stairs", "stone wall",
+    "support arch", "support column", "window"],
+  art: ["chair", "painting", "sculpture", "table"]
+};
+
 function lang() {
   let mlang = localStorage.getItem("arquilang");
   if (!mlang) {
@@ -47,7 +58,28 @@ function populateNavMenu() {
       a.removeAttribute("href");
       a.classList.add("disabled");
     }
-    a.innerHTML = MENUTEXT[lang()][aSlug];
+    a.innerHTML = MENU_STRING[lang()][aSlug];
+  });
+}
+
+function populateCategoryMenu() {
+  const catMenuEl = document.getElementById("category-menu");
+  const catTitleEl = document.getElementById("category-title");
+
+  catTitleEl.innerHTML = `${MENU_STRING[lang()].category}: `;
+
+  ["architecture", "art"].forEach(c => {
+    const catEl = document.createElement("a");
+    catEl.classList.add("category-item");
+
+    catEl.innerHTML = MENU_STRING[lang()][c];
+    catEl.setAttribute("href", `./#/${c}`);
+
+    if (CATEGORY.includes(c)) {
+      catEl.classList.add("selected");
+    }
+    catEl.addEventListener("click", _ => setTimeout(()=>location.reload(), 4));
+    catMenuEl.appendChild(catEl);
   });
 }
 
@@ -103,6 +135,7 @@ function setupAboutOverlay() {
 
 document.addEventListener("DOMContentLoaded", async (_) => {
   populateNavMenu();
+  populateCategoryMenu();
   setupDetailOverlay();
   setupAboutOverlay();
   populateLangMenu();
@@ -245,7 +278,7 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     cImageIdx = loadImages(cImages, 0);
   }
 
-  Object.keys(objectData["objects"]).forEach((o) => {
+  Object.keys(objectData["objects"]).filter(l => CATEGORIES[CATEGORY].includes(l)).forEach((o) => {
     const optButEl = document.createElement("button");
     optButEl.classList.add("object-option-button");
     optButEl.setAttribute("data-option", o);

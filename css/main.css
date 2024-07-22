@@ -76,6 +76,26 @@ main {
   text-transform: uppercase;
 }
 
+.category-menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0 12px;
+  margin: 0 auto 8px;
+}
+
+.category-menu .category-item {
+  display: block;
+  text-transform: capitalize;
+}
+
+.category-menu .category-item.selected {
+  pointer-events: none;
+  color: var(--text-color-a-h);
+  text-decoration: none;
+}
+
 .navigation-container {
   width: 100%;
   display: flex;

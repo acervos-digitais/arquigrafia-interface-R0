@@ -8,12 +8,18 @@ const INFOSTRING = {
   pt: "Mais Informação",
 };
 
-const MENUTEXT = {
+const MENU_STRING = {
   en: {
     about: "about",
+    category: "category",
+    architecture: "architecture",
+    art: "art & design",
   },
   pt: {
     about: "sobre",
+    category: "categoria",
+    architecture: "arquitetura",
+    art: "arte & design",
   },
 };
 
@@ -24,16 +30,13 @@ const OBJ2LABEL = {
     "brick": "brick wall",
     "chair": "chair",
     "chimney": "chimney",
-    "concrete wall": "concrete Wall",
+    "exposed concrete": "concrete",
     "door": "door",
-    "overhang": "overhang",
     "painting": "painting",
-    "person": "people",
     "hand rail": "railing",
-    "pedestrian ramp": "ramp",
+    "pedestrian walking ramp": "ramp",
     "sculpture": "sculpture",
     "stairs": "stairs",
-    "steps": "steps",
     "stone wall": "stone wall",
     "support arch": "arch",
     "support column": "column",
@@ -46,16 +49,13 @@ const OBJ2LABEL = {
     "brick": "parede de tijolos",
     "chair": "cadeira",
     "chimney": "chaminé",
-    "concrete wall": "parede de concreto",
+    "exposed concrete": "concreto",
     "door": "porta",
-    "overhang": "overhang",
     "painting": "quadro",
-    "person": "pessoas",
     "hand rail": "corrimão",
-    "pedestrian ramp": "rampa",
+    "pedestrian walking ramp": "rampa",
     "sculpture": "escultura",
     "stairs": "escadas",
-    "steps": "degraus",
     "stone wall": "muro de pedra",
     "support arch": "arco",
     "support column": "coluna",

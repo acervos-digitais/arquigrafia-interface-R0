@@ -48,7 +48,7 @@ function populateNavMenu() {
   const navMenuEl = document.getElementById("navigation-menu");
   const navLinkEls = navMenuEl.querySelectorAll("[data-slug]");
 
-  titleEl.innerHTML = DAYSTRING[lang()];
+  titleEl.innerHTML = MAIN_TITLE_STRING[lang()];
 
   navLinkEls.forEach((a) => {
     const aRef = a.getAttribute("href");
@@ -128,7 +128,7 @@ function setupAboutOverlay() {
 
   aboutLinkEl.addEventListener("click", () => {
     aboutOverlayEl.classList.add("visible");
-    overlayAboutEl.innerHTML = ABOUTTEXT[lang()];
+    overlayAboutEl.innerHTML = ABOUT_STRING[lang()];
     document.body.addEventListener("wheel", prevDef, { passive: false });
   });
 }
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", async (_) => {
 
     detailContentEl.style.opacity = 0;
 
-    linkEl.innerHTML = INFOSTRING[lang()];
+    linkEl.innerHTML = INFO_STRING[lang()];
     imgEl.setAttribute("src", imgSrc);
     imgEl.removeAttribute("width");
     imgEl.removeAttribute("height");

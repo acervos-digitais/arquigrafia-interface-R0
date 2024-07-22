@@ -1,9 +1,9 @@
-const DAYSTRING = {
+const MAIN_TITLE_STRING = {
   en: "Arquigrafia: Study",
   pt: "Arquigrafia: Estudo",
 };
 
-const INFOSTRING = {
+const INFO_STRING = {
   en: "More Info",
   pt: "Mais Informação",
 };
@@ -64,7 +64,7 @@ const OBJ2LABEL = {
   },
 };
 
-const ABOUTTEXT = {
+const ABOUT_STRING = {
   en: `
   <p>Project developed within the research group <a href = "https://www.acervosdigitais.fau.usp.br/" target = "_blank">Acervos Digitais</a>.</p>
   <p>Code and scripts used are available on our <a href="https://github.com/acervos-digitais" target="_blank">GitHub</a>.</p>

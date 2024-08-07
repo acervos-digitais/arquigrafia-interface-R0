@@ -69,20 +69,20 @@ const OBJ2LABEL = {
 
 const BINARY_STRING = {
   en: {
-    "complex/simple": "complex/simple",
-    "horizontal/vertical": "horizontal/vertical",
-    "internal/external": "internal/external",
-    "open/closed": "open/closed",
-    "symmetric/asymmetric": "symmetric/asymmetric",
-    "translucent/opaque": "translucent/opaque",
+    "complex/simple": "comp/simp",
+    "horizontal/vertical": "hor/vert",
+    "internal/external": "int/ext",
+    "open/closed": "open/close",
+    "symmetric/asymmetric": "sym/asym",
+    "translucent/opaque": "trans/op",
   },
   pt: {
-    "complex/simple": "complexa/simples",
-    "horizontal/vertical": "horizontal/vertical",
-    "internal/external": "interna/externa",
-    "open/closed": "aberta/fechada",
-    "symmetric/asymmetric": "simétrica/assimétrica",
-    "translucent/opaque": "translúcida/opaca",
+    "complex/simple": "comp/simp",
+    "horizontal/vertical": "hor/vert",
+    "internal/external": "int/ext",
+    "open/closed": "abe/fec",
+    "symmetric/asymmetric": "sim/assim",
+    "translucent/opaque": "trans/op",
   },
 }
 

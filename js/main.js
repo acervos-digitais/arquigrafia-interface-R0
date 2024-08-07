@@ -184,9 +184,11 @@ function createImageElement(imageId, obs) {
 
   const imgSrc = IMAGES_URL.replace("IDID", imageId);
 
+  imgTextEl.innerHTML = imageId;
+
   imgWrapperEl.innerHTML = "";
-  imgWrapperEl.appendChild(imgEl);
   imgWrapperEl.appendChild(imgTextEl);
+  imgWrapperEl.appendChild(imgEl);
   imgEl.src = imgSrc;
 
   if (obs) {

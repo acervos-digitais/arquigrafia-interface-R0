@@ -175,6 +175,22 @@ main {
   top: 0;
 }
 
+.overlay .detail-content .dominant-color-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: -10px;
+}
+
+.overlay .detail-content .dominant-color-wrapper .dominant-color {
+  display: block;
+  flex-grow: 1;
+  height: 20px;
+  border: 1px solid #000;
+}
+
 .overlay .overlay-text {
   min-height: 50%;
   min-width: 50%;

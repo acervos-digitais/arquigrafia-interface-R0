@@ -3,14 +3,16 @@ const OBJS_URL = "https://raw.githubusercontent.com/acervos-digitais/arquigrafia
 const INFO_URL = "https://www.arquigrafia.org.br/photos/IDID";
 const IMAGES_URL = "https://www.arquigrafia.org.br/arquigrafia-images/IDID_view.jpg";
 
-const CATEGORY = (window.location.hash == "#/art") ? "art" : "architecture";
+const CATEGORY = (window.location.hash == "#/art") ? "art" : (window.location.hash == "#/materials") ? "materials" : "architecture";
 
 const CATEGORIES = {
   architecture: [
-    "awning", "balcony", "brick", "chimney",
-    "exposed concrete", "door", "hand rail",
-    "pedestrian walking ramp", "stairs", "stone wall",
-    "support arch", "support column", "window"],
+    "building door", "greenery", "inclined walkway",
+    "railing", "stairs", "tower", "window", "vertical pillar",
+  ],
+  materials: [
+    "concrete wall", "masonry", "wrought", "mirror", "wood fence",
+  ],
   art: ["chair", "painting", "sculpture", "table"]
 };
 
@@ -68,7 +70,7 @@ function populateCategoryMenu() {
 
   catTitleEl.innerHTML = `${MENU_STRING[lang()].category}: `;
 
-  ["architecture", "art"].forEach(c => {
+  ["architecture", "materials", "art"].forEach(c => {
     const catEl = document.createElement("a");
     catEl.classList.add("category-item");
 

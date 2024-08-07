@@ -26,6 +26,17 @@ function lang() {
   }
 }
 
+function hexToRgb(hex) {
+  return ['0x' + hex[1] + hex[2] | 0, '0x' + hex[3] + hex[4] | 0, '0x' + hex[5] + hex[6] | 0];
+}
+
+function rgbDist(c0, c1) {
+  const c0Range = Math.max(...c0) - Math.min(...c0);
+  const c1Range = Math.max(...c1) - Math.min(...c1);
+  greyFactor = (c0Range < c1Range && c0Range < 20) ? 255 - (c0Range / 1) : 0;
+  return c0.reduce((s, _, i) => s + Math.abs(c0[i] - c1[i]), greyFactor);
+}
+
 function getGridDims(numVideos) {
   const videoArea = (window.innerWidth * window.innerHeight) / numVideos;
   const dimFactor = (videoArea / (16 * 9)) ** 0.5;
@@ -194,6 +205,7 @@ document.addEventListener("DOMContentLoaded", async (_) => {
 
   const selInputEl = document.getElementById("selection-container");
   const imagesEl = document.getElementById("images-container");
+  const colorPicker = document.getElementById("selection-color");
 
   const imageOnscreen = (entries, _) => {
     entries.forEach((entry) => {
@@ -216,11 +228,14 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     const imgEl = document.getElementById("detail-image");
     const canvasEl = document.getElementById("detail-canvas");
     const captionEl = document.getElementById("detail-caption");
+    const detailColorsEl = document.getElementById("dominant-color-wrapper");
     const linkEl = document.getElementById("detail-link");
 
     const canvasCtx = canvasEl.getContext("2d");
 
     const imageId = ev.currentTarget.getAttribute("data-image-id");
+    const imgColors = objectData["images"][imageId]["dominant_color"]["palette"];
+    const imgBinaries = objectData["images"][imageId]["binaries"] || {};
 
     const imgSrc = IMAGES_URL.replace("IDID", imageId);
     const linkHref = INFO_URL.replace("IDID", imageId);
@@ -233,7 +248,22 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     imgEl.removeAttribute("height");
     linkEl.setAttribute("href", linkHref);
 
+    detailColorsEl.innerHTML = "";
+    imgColors.forEach(c => {
+      const cEl = document.createElement("div");
+      cEl.classList.add("dominant-color");
+      cEl.style.backgroundColor = `rgb(${c.join(",")})`;
+      detailColorsEl.appendChild(cEl);
+    });
+
+    const binText = [];
+    for (const [key, value] of Object.entries(imgBinaries)) {
+      binText.push(`${BINARY_STRING[lang()][key]}: ${value}`);
+    }
+
     captionEl.innerHTML = objectData["images"][imageId]["caption"][lang()];
+    captionEl.innerHTML += `<br>${binText.join(", ")}`;
+
     canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
     function drawBox() {
@@ -275,7 +305,11 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     setTimeout(drawBox, 200);
   };
 
-  function loadImages(images, startIdx, numImages = 10) {
+  function loadImages(images, startIdx = 0, numImages = 10) {
+    if (startIdx == 0) {
+      imagesEl.innerHTML = "";
+    }
+
     const lastIdx = Math.min(startIdx + numImages, images.length);
     for (let i = startIdx; i < lastIdx; i++) {
       const mImgEl = createImageElement(images[i], i == lastIdx - 2);
@@ -288,11 +322,28 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     return lastIdx;
   }
 
-  function updateImagesByObject(cObject) {
-    imagesEl.innerHTML = "";
-    cImages = objectData["objects"][cObject].slice();
+  function updateImagesByObject() {
+    const cObject = selInputEl.getAttribute("data-selected-object") || "";
+    if (cObject == "") return;
+
+    const selRgb = hexToRgb(colorPicker.value);
+    const byRgbDist = (a, b) => {
+      const aMin = Math.min(...a.colors.map(c => rgbDist(c, selRgb)));
+      const bMin = Math.min(...b.colors.map(c => rgbDist(c, selRgb)));
+      return aMin - bMin;
+    };
+
+    cImages = objectData["objects"][cObject].map(v => {
+      return {
+        colors: objectData["images"][v]["dominant_color"]["palette"],
+        id: v
+      }
+    }).toSorted(byRgbDist).map(o => o.id);
+
     cImageIdx = loadImages(cImages, 0);
   }
+
+  colorPicker.addEventListener("change", updateImagesByObject);
 
   Object.keys(objectData["objects"]).filter(l => CATEGORIES[CATEGORY].includes(l)).forEach((o) => {
     const optButEl = document.createElement("button");
@@ -307,7 +358,7 @@ document.addEventListener("DOMContentLoaded", async (_) => {
       el.classList.add("selected");
       const selObj = el.getAttribute("data-option");
       selInputEl.setAttribute("data-selected-object", selObj);
-      updateImagesByObject(selObj);
+      updateImagesByObject();
     });
     selInputEl.appendChild(optButEl);
   });

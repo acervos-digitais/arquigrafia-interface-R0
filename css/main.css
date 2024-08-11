@@ -96,14 +96,6 @@ main {
   text-decoration: none;
 }
 
-.navigation-container {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
 .images-container {
   width: 100%;
   margin: 10px 0;
@@ -225,8 +217,14 @@ main {
 }
 
 .navigation-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
   gap: 0 12px;
 }
+
 
 .navigation-container .selection-container {
   display: flex;
@@ -253,4 +251,13 @@ main {
 .navigation-container .selection-container .object-option-button.selected {
   background-color: var(--text-color-a-h);
   color: var(--bgnd-color);
+}
+
+.navigation-container .color-container .color-label {
+  font-size: 14px;
+  margin-top: -28px;
+}
+
+.navigation-container .color-container .color-selection {
+  width: 100%;
 }

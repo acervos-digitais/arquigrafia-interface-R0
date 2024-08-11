@@ -207,7 +207,8 @@ document.addEventListener("DOMContentLoaded", async (_) => {
 
   const selInputEl = document.getElementById("selection-container");
   const imagesEl = document.getElementById("images-container");
-  const colorPicker = document.getElementById("selection-color");
+  const colorPickerEl = document.getElementById("color-selection");
+  const colorLabelEl = document.getElementById("color-label");
 
   const imageOnscreen = (entries, _) => {
     entries.forEach((entry) => {
@@ -264,7 +265,7 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     }
 
     captionEl.innerHTML = objectData["images"][imageId]["caption"][lang()];
-    captionEl.innerHTML += `<br>${binText.join(", ")}`;
+    // captionEl.innerHTML += `<br>${binText.join(", ")}`;
 
     canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
@@ -328,7 +329,7 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     const cObject = selInputEl.getAttribute("data-selected-object") || "";
     if (cObject == "") return;
 
-    const selRgb = hexToRgb(colorPicker.value);
+    const selRgb = hexToRgb(colorPickerEl.value);
     const byRgbDist = (a, b) => {
       const aMin = Math.min(...a.colors.map(c => rgbDist(c, selRgb)));
       const bMin = Math.min(...b.colors.map(c => rgbDist(c, selRgb)));
@@ -345,7 +346,8 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     cImageIdx = loadImages(cImages, 0);
   }
 
-  colorPicker.addEventListener("change", updateImagesByObject);
+  colorPickerEl.addEventListener("change", updateImagesByObject);
+  colorLabelEl.innerHTML = COLOR_LABEL_STRING[lang()];
 
   Object.keys(objectData["objects"]).filter(l => CATEGORIES[CATEGORY].includes(l)).forEach((o) => {
     const optButEl = document.createElement("button");

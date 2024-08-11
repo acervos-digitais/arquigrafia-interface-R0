@@ -86,6 +86,11 @@ const BINARY_STRING = {
   },
 }
 
+const COLOR_LABEL_STRING = {
+  en: "Order by Color",
+  pt: "Organizar por Cor"
+}
+
 const ABOUT_STRING = {
   en: `
   <p>Project developed within the research group <a href = "https://www.acervosdigitais.fau.usp.br/" target = "_blank">Acervos Digitais</a>.</p>

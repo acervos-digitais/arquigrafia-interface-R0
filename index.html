@@ -14,6 +14,7 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway:400" rel="stylesheet" type="text/css" />
   <link rel="shortcut icon" type="image/x-icon" href="imgs/favicon.png" />
 
+  <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2"></script>
   <script src="./js/strings.js"></script>
   <script src="./js/main.js"></script>
 </head>
@@ -31,7 +32,10 @@
     </div>
     <div id="navigation-container" class="navigation-container">
       <div id="selection-container" class="selection-container"></div>
-      <input type="color" id="selection-color" value="#ffffff" />
+      <div class="color-container">
+        <div id="color-label" class="color-label"></div>
+        <input type="color" id="color-selection" class="color-selection" value="#ffffff" />
+      </div>
     </div>
     <div id="images-container" class="images-container"></div>
   </main>

@@ -91,6 +91,11 @@ const COLOR_LABEL_STRING = {
   pt: "Organizar por Cor"
 }
 
+const CAPTION_NOTE_STRING = {
+  en: "Note: description generated automatically by AI. In case of errors, write to: acervosdigitais@usp.br.",
+  pt: "Atenção: descrição gerada com IA automaticamente. Em caso de erro, entre em contato: acervosdigitais@usp.br."
+}
+
 const ABOUT_STRING = {
   en: `
   <p>Project developed within the research group <a href = "https://www.acervosdigitais.fau.usp.br/" target = "_blank">Acervos Digitais</a>.</p>

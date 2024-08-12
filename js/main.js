@@ -118,6 +118,7 @@ function populateLangMenu() {
 function setupDetailOverlay() {
   const detailOverlayEl = document.getElementById("detail-overlay");
   const detailContentEl = document.getElementById("detail-content");
+  const detailCaptionNoteEl = document.getElementById("detail-caption-note");
 
   document.body.addEventListener("keydown", (ev) => {
     if (ev.key === "Escape" && detailOverlayEl.classList.contains("visible")) {
@@ -132,6 +133,8 @@ function setupDetailOverlay() {
   });
 
   detailContentEl.addEventListener("click", stopProp);
+
+  detailCaptionNoteEl.innerHTML = CAPTION_NOTE_STRING[lang()];
 }
 
 function setupAboutOverlay() {

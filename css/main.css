@@ -121,11 +121,12 @@ main {
 }
 
 .images-container .image-wrapper .no-image-text{
-  display: none;
   width: 100%;
   margin: 0 auto;
   text-align: center;
-  height: 0;
+  font-size: 10px;
+  /* display: none; */
+  /* height: 0; */
 }
 
 .overlay {
@@ -184,6 +185,7 @@ main {
 
 .overlay .detail-content .detail-caption {
   margin: 10px 0 0;
+  line-height: 1.4;
 }
 
 .overlay .detail-content .detail-caption-note {

@@ -14,6 +14,7 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway:400" rel="stylesheet" type="text/css" />
   <link rel="shortcut icon" type="image/x-icon" href="imgs/favicon.png" />
 
+  <script src="./js/tts.js" type="module"></script>
   <script src="./js/strings.js"></script>
   <script src="./js/main.js"></script>
 </head>
@@ -46,7 +47,11 @@
         <canvas id="detail-canvas" class="detail-canvas"></canvas>
       </div>
       <div id="dominant-color-wrapper" class="dominant-color-wrapper"></div>
-      <p id="detail-caption" class="detail-caption"></p>
+      <div class="caption-wrapper">
+        <p id="detail-caption" class="detail-caption"></p>
+        <audio id="caption-audio" type="audio/wav"></audio>
+        <a id="caption-play-button" class="caption-button">🔊</a>
+      </div>
       <p id="detail-caption-note" class="detail-caption-note"></p>
       <a id="detail-link" class="detail-link" target="_blank"></a>
     </div>

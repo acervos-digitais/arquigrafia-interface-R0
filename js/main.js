@@ -119,6 +119,8 @@ function setupDetailOverlay() {
   const detailOverlayEl = document.getElementById("detail-overlay");
   const detailContentEl = document.getElementById("detail-content");
   const detailCaptionNoteEl = document.getElementById("detail-caption-note");
+  const audioEl = document.getElementById("caption-audio");
+  const audioPlayEl = document.getElementById("caption-play-button");
 
   document.body.addEventListener("keydown", (ev) => {
     if (ev.key === "Escape" && detailOverlayEl.classList.contains("visible")) {
@@ -135,6 +137,14 @@ function setupDetailOverlay() {
   detailContentEl.addEventListener("click", stopProp);
 
   detailCaptionNoteEl.innerHTML = CAPTION_NOTE_STRING[lang()];
+
+  audioPlayEl.addEventListener("click", () => {
+    audioEl.play();
+  });
+
+  audioEl.addEventListener("canplay", () => {
+    audioPlayEl.style.display = "initial";
+  });
 }
 
 function setupAboutOverlay() {
@@ -237,6 +247,9 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     const detailColorsEl = document.getElementById("dominant-color-wrapper");
     const linkEl = document.getElementById("detail-link");
 
+    const audioEl = document.getElementById("caption-audio");
+    const audioPlayEl = document.getElementById("caption-play-button");
+
     const canvasCtx = canvasEl.getContext("2d");
 
     const imageId = ev.currentTarget.getAttribute("data-image-id");
@@ -269,6 +282,12 @@ document.addEventListener("DOMContentLoaded", async (_) => {
 
     captionEl.innerHTML = objectData["images"][imageId]["caption"][lang()];
     // captionEl.innerHTML += `<br>${binText.join(", ")}`;
+
+    audioPlayEl.style.display = "none";
+    audioEl.src = "";
+    tts(captionEl.innerHTML).then(res => {
+      audioEl.src = res.data[0].url;
+    });
 
     canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 

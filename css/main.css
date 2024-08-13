@@ -188,6 +188,17 @@ main {
   line-height: 1.4;
 }
 
+.overlay .detail-content .caption-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 0 12px;
+}
+
+.overlay .detail-content .caption-wrapper .caption-button {
+  cursor: pointer;
+  font-size: 32px;
+}
+
 .overlay .detail-content .detail-caption-note {
   font-size: 12px;
   line-height: 1;

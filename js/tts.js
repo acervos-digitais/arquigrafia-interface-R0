@@ -1,9 +1,14 @@
 import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client@1.5.0/dist/index.min.js";
 
-const client = await Client.connect("thiagohersan/mms-tts-por-gradio");
+const clientPt = await Client.connect("thiagohersan/mms-tts-por-gradio");
+const clientEn = await Client.connect("thiagohersan/mms-tts-eng-gradio");
 
-async function tts(txt) {
-  return client.predict("/predict", { txt });
+async function tts(lang, txt) {
+  if (lang == "pt") {
+    return clientPt.predict("/predict", { txt });
+  } else {
+    return clientEn.predict("/predict", { txt });
+  }
 }
 
 Object.defineProperty(window, "tts", {

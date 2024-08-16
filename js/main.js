@@ -1,4 +1,4 @@
-const OBJS_URL = "https://raw.githubusercontent.com/acervos-digitais/arquigrafia-utils/main/metadata/objects.json";
+const OBJS_URL = "https://raw.githubusercontent.com/acervos-digitais/arquigrafia-data/main/objects.json";
 
 const INFO_URL = "https://www.arquigrafia.org.br/photos/IDID";
 const IMAGES_URL = "https://www.arquigrafia.org.br/arquigrafia-images/IDID_view.jpg";
@@ -285,7 +285,7 @@ document.addEventListener("DOMContentLoaded", async (_) => {
 
     audioPlayEl.style.display = "none";
     audioEl.src = "";
-    tts(captionEl.innerHTML).then(res => {
+    tts(lang(), captionEl.innerHTML).then(res => {
       audioEl.src = res.data[0].url;
     });
 

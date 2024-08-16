@@ -1,4 +1,4 @@
-const OBJS_URL = "https://raw.githubusercontent.com/acervos-digitais/arquigrafia-data/main/objects.json";
+const OBJS_URL = "https://raw.githubusercontent.com/acervos-digitais/arquigrafia-data/main/json/objects.json";
 
 const INFO_URL = "https://www.arquigrafia.org.br/photos/IDID";
 const IMAGES_URL = "https://www.arquigrafia.org.br/arquigrafia-images/IDID_view.jpg";

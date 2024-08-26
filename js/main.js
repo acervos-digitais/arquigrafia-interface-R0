@@ -280,7 +280,7 @@ document.addEventListener("DOMContentLoaded", async (_) => {
       binText.push(`${BINARY_STRING[lang()][key]}: ${value}`);
     }
 
-    captionEl.innerHTML = objectData["images"][imageId]["caption"][lang()];
+    captionEl.innerHTML = objectData["images"][imageId]["captions"][lang()]["gpt"];
     // captionEl.innerHTML += `<br>${binText.join(", ")}`;
 
     audioPlayEl.style.display = "none";

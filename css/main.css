@@ -196,7 +196,10 @@ main {
 
 .overlay .detail-content .caption-wrapper .caption-button {
   cursor: pointer;
-  font-size: 32px;
+  font-size: 16px;
+  line-height: 1.4;
+  align-self: flex-end;
+
 }
 
 .overlay .detail-content .detail-caption-note {

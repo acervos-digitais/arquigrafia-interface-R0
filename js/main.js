@@ -2,6 +2,7 @@ const OBJS_URL = "https://raw.githubusercontent.com/acervos-digitais/arquigrafia
 
 const INFO_URL = "https://www.arquigrafia.org.br/photos/IDID";
 const IMAGES_URL = "https://www.arquigrafia.org.br/arquigrafia-images/IDID_view.jpg";
+const AUDIO_URL = "https://digitais.acervos.me/mp3s/arquigrafia/captions/LANGLANG/IDID.mp3";
 
 const CATEGORY = (window.location.hash == "#/art") ? "art" : (window.location.hash == "#/materials") ? "materials" : "architecture";
 
@@ -126,12 +127,16 @@ function setupDetailOverlay() {
     if (ev.key === "Escape" && detailOverlayEl.classList.contains("visible")) {
       detailOverlayEl.classList.remove("visible");
       document.body.removeEventListener("wheel", prevDef);
+      audioEl.pause();
+      audioEl.src = "";
     }
   });
 
   detailOverlayEl.addEventListener("click", () => {
     detailOverlayEl.classList.remove("visible");
     document.body.removeEventListener("wheel", prevDef);
+    audioEl.pause();
+    audioEl.src = "";
   });
 
   detailContentEl.addEventListener("click", stopProp);
@@ -284,10 +289,7 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     // captionEl.innerHTML += `<br>${binText.join(", ")}`;
 
     audioPlayEl.style.display = "none";
-    audioEl.src = "";
-    tts(lang(), captionEl.innerHTML).then(res => {
-      audioEl.src = res.data[0].url;
-    });
+    audioEl.src = AUDIO_URL.replace("IDID", imageId).replace("LANGLANG", lang());
 
     canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 

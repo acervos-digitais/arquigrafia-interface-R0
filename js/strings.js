@@ -91,9 +91,15 @@ const COLOR_LABEL_STRING = {
   pt: "Organizar por Cor"
 }
 
-const DROP_DOWN_STRING = {
-  en: "Objects",
-  pt: "Objetos"
+const DROP_DOWN_STRINGS = {
+  en: {
+    objects: "Objects",
+    materials: "Materials"
+  },
+  pt: {
+    objects: "Objetos",
+    materials: "Materiais"
+  }
 }
 
 const CAPTION_NOTE_STRING = {

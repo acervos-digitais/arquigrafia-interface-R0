@@ -9,7 +9,9 @@ const CATEGORY = (window.location.hash == "#/art") ? "art" : (window.location.ha
 const CATEGORIES = {
   architecture: [
     "building door", "greenery", "inclined walkway",
-    "railing", "stairs", "tower", "window", "vertical pillar",
+    "railing", "stairs", "tower", "vertical pillar", "window",
+    "HR",
+    "concrete wall", "masonry", "mirror", "wood fence", "wrought",
   ],
   materials: [
     "concrete wall", "masonry", "wrought", "mirror", "wood fence",
@@ -82,7 +84,7 @@ function populateCategoryMenu() {
 
   catTitleEl.innerHTML = `${MENU_STRING[lang()].category}: `;
 
-  ["architecture", "materials", "art"].forEach(c => {
+  ["architecture", "art"].forEach(c => {
     const catEl = document.createElement("a");
     catEl.classList.add("category-item");
 
@@ -371,13 +373,27 @@ document.addEventListener("DOMContentLoaded", async (_) => {
     cImageIdx = loadImages(cImages, 0);
   }
 
-  function populateDropDown() {
-    document.getElementById("default-drop-down").innerHTML = DROP_DOWN_STRING[lang()];
-    Object.keys(objectData["objects"]).filter(l => CATEGORIES[CATEGORY].includes(l)).forEach((o) => {
+  function populateDropDown(objects) {
+    document.getElementById("default-drop-down").innerHTML = DROP_DOWN_STRINGS[lang()]["objects"];
+
+    const ddOpt = document.createElement("option");
+    ddOpt.classList.add("object-dd-option");
+    ddOpt.setAttribute("disabled", true);
+    ddOpt.value = "";
+    ddOpt.innerHTML = "---" + DROP_DOWN_STRINGS[lang()]["objects"];
+    dropDownEl.appendChild(ddOpt);
+
+    objects.forEach((o) => {
       const ddOpt = document.createElement("option");
       ddOpt.classList.add("object-dd-option");
       ddOpt.value = o;
-      ddOpt.innerHTML = OBJ2LABEL[lang()][o];
+
+      if (o == "HR") {
+        ddOpt.setAttribute("disabled", true);
+        ddOpt.innerHTML = "---" + DROP_DOWN_STRINGS[lang()]["materials"];
+      } else {
+        ddOpt.innerHTML = OBJ2LABEL[lang()][o];
+      }
       dropDownEl.appendChild(ddOpt);
     });
 
@@ -388,26 +404,33 @@ document.addEventListener("DOMContentLoaded", async (_) => {
       updateImagesByObject();
     });
   }
-  populateDropDown();
 
   colorPickerEl.addEventListener("change", updateImagesByObject);
   colorLabelEl.innerHTML = COLOR_LABEL_STRING[lang()];
 
-  Object.keys(objectData["objects"]).filter(l => CATEGORIES[CATEGORY].includes(l)).forEach((o) => {
-    const optButEl = document.createElement("button");
-    optButEl.classList.add("object-option-button");
-    optButEl.setAttribute("data-option", o);
-    optButEl.innerHTML = OBJ2LABEL[lang()][o];
+  const objectLabels = CATEGORIES[CATEGORY].filter(l => l=="HR" || Object.keys(objectData["objects"]).includes(l));
+  populateDropDown(objectLabels);
 
-    optButEl.addEventListener("click", (ev) => {
-      selInputEl.childNodes.forEach((e) => e.classList.remove("selected"));
+  objectLabels.forEach((o) => {
+    if (o == "HR") {
+      const optBreakEl = document.createElement("hr");
+      selInputEl.appendChild(optBreakEl);
+    } else {
+      const optButEl = document.createElement("button");
+      optButEl.classList.add("object-option-button");
+      optButEl.setAttribute("data-option", o);
+      optButEl.innerHTML = OBJ2LABEL[lang()][o];
 
-      const el = ev.target;
-      el.classList.add("selected");
-      const selObj = el.getAttribute("data-option");
-      selInputEl.setAttribute("data-selected-object", selObj);
-      updateImagesByObject();
-    });
-    selInputEl.appendChild(optButEl);
+      optButEl.addEventListener("click", (ev) => {
+        selInputEl.childNodes.forEach((e) => e.classList.remove("selected"));
+
+        const el = ev.target;
+        el.classList.add("selected");
+        const selObj = el.getAttribute("data-option");
+        selInputEl.setAttribute("data-selected-object", selObj);
+        updateImagesByObject();
+      });
+      selInputEl.appendChild(optButEl);
+    }
   });
 });

@@ -278,11 +278,40 @@ main {
   color: var(--bgnd-color);
 }
 
+.navigation-container .drop-down-container .color-label {
+  font-size: 14px;
+  opacity: 0;
+  user-select: none;
+  display: none;
+}
+
+.navigation-container .drop-down-container .drop-down {
+  text-transform: capitalize;
+  padding: 4px 12px;
+  display: none;
+}
+
 .navigation-container .color-container .color-label {
   font-size: 14px;
   margin-top: -28px;
+  min-width: 120px;
 }
 
 .navigation-container .color-container .color-selection {
   width: 100%;
+}
+
+@media only screen and (max-width: 700px) {
+  .navigation-container .selection-container {
+    display: none;
+  }
+  .navigation-container .drop-down-container .color-label {
+    display: block;
+  }
+  .navigation-container .drop-down-container .drop-down {
+    display: initial;
+  }
+  .navigation-container .color-container .color-label {
+    margin-top: initial;
+  }
 }

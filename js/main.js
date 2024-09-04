@@ -224,6 +224,7 @@ document.addEventListener("DOMContentLoaded", async (_) => {
   const objectData = await fetchData(OBJS_URL);
 
   const selInputEl = document.getElementById("selection-container");
+  const dropDownEl = document.getElementById("object-drop-down");
   const imagesEl = document.getElementById("images-container");
   const colorPickerEl = document.getElementById("color-selection");
   const colorLabelEl = document.getElementById("color-label");
@@ -369,6 +370,25 @@ document.addEventListener("DOMContentLoaded", async (_) => {
 
     cImageIdx = loadImages(cImages, 0);
   }
+
+  function populateDropDown() {
+    document.getElementById("default-drop-down").innerHTML = DROP_DOWN_STRING[lang()];
+    Object.keys(objectData["objects"]).filter(l => CATEGORIES[CATEGORY].includes(l)).forEach((o) => {
+      const ddOpt = document.createElement("option");
+      ddOpt.classList.add("object-dd-option");
+      ddOpt.value = o;
+      ddOpt.innerHTML = OBJ2LABEL[lang()][o];
+      dropDownEl.appendChild(ddOpt);
+    });
+
+    dropDownEl.addEventListener("change", (ev) => {
+      const el = ev.target;
+      const selObj = el.options[el.selectedIndex].value;
+      selInputEl.setAttribute("data-selected-object", selObj);
+      updateImagesByObject();
+    });
+  }
+  populateDropDown();
 
   colorPickerEl.addEventListener("change", updateImagesByObject);
   colorLabelEl.innerHTML = COLOR_LABEL_STRING[lang()];

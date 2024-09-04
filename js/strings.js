@@ -91,6 +91,11 @@ const COLOR_LABEL_STRING = {
   pt: "Organizar por Cor"
 }
 
+const DROP_DOWN_STRING = {
+  en: "Objects",
+  pt: "Objetos"
+}
+
 const CAPTION_NOTE_STRING = {
   en: "Note: description generated automatically by AI. In case of errors, write to: acervosdigitais@usp.br.",
   pt: "Atenção: descrição gerada com IA automaticamente. Em caso de erro, entre em contato: acervosdigitais@usp.br."

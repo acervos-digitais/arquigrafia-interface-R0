@@ -44,6 +44,11 @@ const OBJ2LABEL = {
     "sculpture": "sculpture",
     "vertical pillar": "pillar",
     "window": "window",
+    "person": "people",
+    "animal": "animals",
+    "water": "water",
+    "sky": "sky",
+    "cloud": "cloud"
   },
 
   pt: {
@@ -64,6 +69,11 @@ const OBJ2LABEL = {
     "sculpture": "escultura",
     "vertical pillar": "coluna/pilar",
     "window": "janela",
+    "person": "pessoas",
+    "animal": "animais",
+    "water": "água",
+    "sky": "céu",
+    "cloud": "nuvem"
   },
 };
 

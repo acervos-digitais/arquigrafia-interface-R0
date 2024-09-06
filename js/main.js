@@ -4,7 +4,10 @@ const INFO_URL = "https://www.arquigrafia.org.br/photos/IDID";
 const IMAGES_URL = "https://www.arquigrafia.org.br/arquigrafia-images/IDID_view.jpg";
 const AUDIO_URL = "https://digitais.acervos.me/mp3s/arquigrafia/captions/LANGLANG/IDID.mp3";
 
-const CATEGORY = (window.location.hash == "#/art") ? "art" : (window.location.hash == "#/materials") ? "materials" : "architecture";
+const CATEGORY = (window.location.hash == "#/art") ? "art" :
+  (window.location.hash == "#/materials") ? "materials" :
+    (window.location.hash == "#/exp") ? "exp" :
+      "architecture";
 
 const CATEGORIES = {
   architecture: [
@@ -16,7 +19,8 @@ const CATEGORIES = {
   materials: [
     "concrete wall", "masonry", "wrought", "mirror", "wood fence",
   ],
-  art: ["chair", "painting", "sculpture", "table"]
+  art: ["chair", "painting", "sculpture", "table"],
+  exp: ["person", "animal", "water", "sky", "cloud"],
 };
 
 function lang() {

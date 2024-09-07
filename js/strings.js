@@ -48,7 +48,8 @@ const OBJ2LABEL = {
     "animal": "animals",
     "water": "water",
     "sky": "sky",
-    "cloud": "cloud"
+    "cloud": "cloud",
+    "vehicle": "vehicle",
   },
 
   pt: {
@@ -73,7 +74,8 @@ const OBJ2LABEL = {
     "animal": "animais",
     "water": "água",
     "sky": "céu",
-    "cloud": "nuvem"
+    "cloud": "nuvem",
+    "vehicle": "veículo",
   },
 };
 

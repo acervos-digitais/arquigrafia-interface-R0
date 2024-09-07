@@ -20,7 +20,7 @@ const CATEGORIES = {
     "concrete wall", "masonry", "wrought", "mirror", "wood fence",
   ],
   art: ["chair", "painting", "sculpture", "table"],
-  exp: ["person", "animal", "water", "sky", "cloud"],
+  exp: ["person", "vehicle", "animal", "water", "sky", "cloud"],
 };
 
 function lang() {

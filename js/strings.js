@@ -5,7 +5,7 @@ const MAIN_TITLE_STRING = {
 
 const INFO_STRING = {
   en: "More Info",
-  pt: "Mais Informação",
+  pt: "Mais Informações",
 };
 
 const MENU_STRING = {

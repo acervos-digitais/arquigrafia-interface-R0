@@ -41,3 +41,7 @@ async function fetchData(mUrl) {
   const response = await fetch(mUrl);
   return await response.json();
 }
+
+// Helper pros overlays
+const prevDef = (ev) => ev.preventDefault();
+const stopProp = (ev) => ev.stopPropagation();

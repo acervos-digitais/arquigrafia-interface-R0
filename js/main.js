@@ -23,41 +23,9 @@ const CATEGORIES = {
   exp: ["person", "vehicle", "animal", "water", "sky", "cloud"],
 };
 
-function lang() {
-  let mlang = localStorage.getItem("arquilang");
-  if (!mlang) {
-    localStorage.setItem("arquilang", "en");
-    return "en";
-  } else {
-    return mlang;
-  }
-}
-
-function hexToRgb(hex) {
-  return ['0x' + hex[1] + hex[2] | 0, '0x' + hex[3] + hex[4] | 0, '0x' + hex[5] + hex[6] | 0];
-}
-
-function rgbDist(c0, c1) {
-  const c0Range = Math.max(...c0) - Math.min(...c0);
-  const c1Range = Math.max(...c1) - Math.min(...c1);
-  greyFactor = (c0Range < c1Range && c0Range < 20) ? 255 - (c0Range / 1) : 0;
-  return c0.reduce((s, _, i) => s + Math.abs(c0[i] - c1[i]), greyFactor);
-}
-
-function getGridDims(numVideos) {
-  const videoArea = (window.innerWidth * window.innerHeight) / numVideos;
-  const dimFactor = (videoArea / (16 * 9)) ** 0.5;
-  const numCols = Math.round(window.innerWidth / (16 * dimFactor));
-  const numRows = Math.ceil(numVideos / numCols);
-  return [numCols, numRows];
-}
-const NUM_VIDS = 33;
-const [NUM_COLS, NUM_ROWS] = getGridDims(NUM_VIDS);
-
-async function fetchData(mUrl) {
-  const response = await fetch(mUrl);
-  return await response.json();
-}
+// Quantas imagens queremos na tela
+const NUM_IMAGES = 32;
+const [NUM_COLS, NUM_ROWS] = getGridDims(NUM_IMAGES);
 
 const prevDef = (ev) => ev.preventDefault();
 const stopProp = (ev) => ev.stopPropagation();

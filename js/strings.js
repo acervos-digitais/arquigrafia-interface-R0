@@ -50,6 +50,10 @@ const OBJ2LABEL = {
     "sky": "sky",
     "cloud": "cloud",
     "vehicle": "vehicle",
+    "sign": "signage",
+    "awning": "awning",
+    "balcony": "balcony",
+    "ramp": "ramp",
   },
 
   pt: {
@@ -76,6 +80,10 @@ const OBJ2LABEL = {
     "sky": "céu",
     "cloud": "nuvem",
     "vehicle": "veículo",
+    "sign": "texto/sinalização",
+    "awning": "toldo/marquise",
+    "balcony": "varanda",
+    "ramp": "rampa",
   },
 };
 

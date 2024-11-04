@@ -11,6 +11,7 @@ const CATEGORIES = {
   architecture: [
     "building door", "greenery", "inclined walkway",
     "railing", "stairs", "tower", "vertical pillar", "window",
+    "awning", "balcony", "ramp",
     "HR",
     "concrete wall", "masonry", "mirror", "wood fence", "wrought",
   ],
@@ -18,7 +19,7 @@ const CATEGORIES = {
     "concrete wall", "masonry", "wrought", "mirror", "wood fence",
   ],
   art: ["chair", "painting", "sculpture", "table"],
-  exp: ["person", "vehicle", "animal", "water", "sky", "cloud"],
+  exp: ["person", "vehicle", "animal", "water", "sky", "cloud", "sign"],
 };
 
 // Quantidade de imagens na tela

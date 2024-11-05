@@ -83,7 +83,6 @@ function loadImageDetailOverlay(objectData) {
     }
 
     captionEl.innerHTML = objectData["images"][imageId]["captions"][lang()]["gpt"];
-    // captionEl.innerHTML += `<br>${binText.join(", ")}`;
 
     audioPlayEl.style.display = "none";
     audioEl.src = AUDIO_URL.replace("IDID", imageId).replace("LANGLANG", lang());

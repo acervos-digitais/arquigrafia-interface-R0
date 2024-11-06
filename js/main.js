@@ -4,22 +4,18 @@ const IMAGES_URL = "https://www.arquigrafia.org.br/arquigrafia-images/IDID_view.
 
 const CATEGORY = (window.location.hash == "#/art") ? "art" :
   (window.location.hash == "#/materials") ? "materials" :
-    (window.location.hash == "#/exp") ? "exp" :
+    (window.location.hash == "#/nature") ? "nature" :
       "architecture";
 
 const CATEGORIES = {
   architecture: [
-    "building door", "greenery", "inclined walkway",
-    "railing", "stairs", "tower", "vertical pillar", "window",
-    "awning", "balcony", "ramp",
-    "HR",
-    "concrete wall", "masonry", "mirror", "wood fence", "wrought",
+    "awning", "balcony", "door", "pillar",
+    "railing", "stairs", "tower", "window",
+    "ramp",
   ],
-  materials: [
-    "concrete wall", "masonry", "wrought", "mirror", "wood fence",
-  ],
-  art: ["chair", "painting", "sculpture", "table"],
-  exp: ["person", "vehicle", "animal", "water", "sky", "cloud", "sign"],
+  materials: ["concrete", "glass", "masonry", "wood", "wrought"],
+  nature: ["animal", "cloud", "greenery", "person", "sky", "water"],
+  art: ["chair", "painting", "sculpture", "sign", "table", "vehicle"],
 };
 
 // Quantidade de imagens na tela
@@ -77,7 +73,7 @@ function populateCategoryMenu() {
 
   catTitleEl.innerHTML = `${MENU_STRING[lang()].category}: `;
 
-  ["architecture", "art"].forEach(c => {
+  ["architecture", "materials", "art", "nature"].forEach(c => {
     const catEl = document.createElement("a");
     catEl.classList.add("category-item");
 

@@ -1,0 +1,29 @@
+
+main {
+  width: 100vw;
+  min-height: 100vh;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.images-container {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.emb-img {
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.emb-img:hover {
+  opacity: 0.8;
+  border: 2px rgb(255, 215, 0) solid;
+}

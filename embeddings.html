@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Arquigrafia Embedding Visualization</title>
+
+  <meta name="description" content="DESCRIPTION" />
+  <meta name="keywords" content="KEY, WORDS, KEYWORDS" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="./css/main.css" />
+  <link rel="stylesheet" href="./css/embeddings.css" />
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400" rel="stylesheet" type="text/css" />
+  <link rel="shortcut icon" type="image/x-icon" href="imgs/favicon.png" />
+
+  <script src="./js/utils.js"></script>
+  <script src="./js/embeddings.js"></script>
+</head>
+
+<body>
+  <main>
+    <div id="images-container" class="images-container"></div>
+  </main>
+
+  <div id="detail-overlay" class="overlay">
+    <div id="detail-content" class="detail-content">
+      <div class="detail-image-wrapper">
+        <img id="detail-image" class="detail-image">
+        <canvas id="detail-canvas" class="detail-canvas"></canvas>
+      </div>
+      <div id="dominant-color-wrapper" class="dominant-color-wrapper"></div>
+      <div class="caption-wrapper">
+        <p id="detail-caption" class="detail-caption"></p>
+        <audio id="caption-audio" type="audio/wav"></audio>
+        <a id="caption-play-button" class="caption-button">▶️</a>
+      </div>
+      <p id="detail-caption-note" class="detail-caption-note"></p>
+      <a id="detail-link" class="detail-link" target="_blank"></a>
+    </div>
+  </div>
+</body>
+
+</html>

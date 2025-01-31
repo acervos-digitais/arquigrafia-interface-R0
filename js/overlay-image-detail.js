@@ -32,7 +32,7 @@ function setupImageDetailOverlay() {
     audioEl.play();
   });
 
-  audioEl.addEventListener("canplay", () => {
+  audioEl.addEventListener("loadedmetadata", () => {
     audioPlayEl.style.display = "initial";
   });
 }

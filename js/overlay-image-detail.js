@@ -1,5 +1,5 @@
 const INFO_URL = "https://www.arquigrafia.org.br/photos/IDID";
-const AUDIO_URL = "https://digitais.acervos.me/mp3s/arquigrafia/captions/LANGLANG/IDID.mp3";
+const AUDIO_URL = "https://digitais.acervos.at.eu.org/mp3s/arquigrafia/captions/LANGLANG/IDID.mp3";
 
 function setupImageDetailOverlay() {
   const detailOverlayEl = document.getElementById("detail-overlay");

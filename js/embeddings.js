@@ -1,6 +1,6 @@
 const OBJS_URL = "https://raw.githubusercontent.com/acervos-digitais/arquigrafia-data/main/json/objects.json";
 
-const IMAGES_URL = "https://digitais.acervos.me/imgs/arquigrafia/128/IDID.jpg";
+const IMAGES_URL = "https://digitais.acervos.at.eu.org/imgs/arquigrafia/128/IDID.jpg";
 // "https://www.arquigrafia.org.br/arquigrafia-images/IDID_view.jpg";
 
 function randomRange(A, B) {
